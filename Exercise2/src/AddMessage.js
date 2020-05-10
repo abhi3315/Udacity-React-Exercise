@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
+import ProtoTypes from 'prop-types'
 
 class AddMessage extends Component {
+
+    static propTypes = {
+        addMsg: ProtoTypes.func.isRequired,
+        user: ProtoTypes.string.isRequired
+    }
+
     state = {
         username: this.props.user,
         text: ""

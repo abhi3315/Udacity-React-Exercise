@@ -24,7 +24,6 @@ class App extends Component {
     this.setState(prevState => ({
       messages: [...prevState.messages, newMsg]
     }))
-    console.log(this.state.messages)
   }
 
   render() {

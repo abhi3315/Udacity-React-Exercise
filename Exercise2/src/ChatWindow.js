@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import AddMessage from './AddMessage'
+import ProtoTypes from 'prop-types'
 
 class ChatWindow extends Component {
+
+    static propTypes = {
+        user: ProtoTypes.string.isRequired,
+        messages: ProtoTypes.array.isRequired,
+        addMsg: ProtoTypes.func.isRequired
+    }
 
     render() {
         const user = this.props.user
