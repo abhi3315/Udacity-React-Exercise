@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import debounce from 'lodash.debounce'
 import * as BooksAPI from './BooksAPI'
 
 class SearchBook extends Component {
@@ -20,7 +21,7 @@ class SearchBook extends Component {
         })
     }
 
-    handleSearch = (searchInput) => {
+    handleSearch = debounce((searchInput) => {
         const maxResults = 15
         if (searchInput !== '') {
             BooksAPI.search(searchInput, maxResults)
@@ -28,8 +29,13 @@ class SearchBook extends Component {
                     ...prevState,
                     searchResult: res
                 })))
+        } else {
+            this.setState(prevState => ({
+                ...prevState,
+                searchResult: []
+            }))
         }
-    }
+    }, 1000)
 
     addBook = (name, value) => {
         let updateBook = this.state.searchResult[name]
@@ -85,7 +91,7 @@ class SearchBook extends Component {
                                     </li>
                                 )
                             })
-                        ) : "No Result Found"}
+                        ) : "Search a book"}
                     </ol>
                 </div>
             </div>
