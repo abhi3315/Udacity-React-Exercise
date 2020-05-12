@@ -1,11 +1,11 @@
-#MyReads React Web App
+# MyReads React Web App
 
-##Getting Started:
+## Getting Started:
 
 - Run `npm install`
 - Run `npm start`
 
-##Features:
+## Features:
 
 * Search new books
 * Add new books to your shelf
