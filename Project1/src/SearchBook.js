@@ -7,7 +7,8 @@ class SearchBook extends Component {
     state = {
         addedBooks: [],
         searchResult: [],
-        Books: []
+        Books: [],
+        flag: true
     }
 
     componentDidMount() {
@@ -27,12 +28,14 @@ class SearchBook extends Component {
             BooksAPI.search(searchInput, maxResults)
                 .then(res => this.setState(prevState => ({
                     ...prevState,
-                    searchResult: res
+                    searchResult: res,
+                    flag: res.length > 0 ? true : false
                 })))
         } else {
             this.setState(prevState => ({
                 ...prevState,
-                searchResult: []
+                searchResult: [],
+                flag: true
             }))
         }
     }, 1000)
@@ -44,7 +47,7 @@ class SearchBook extends Component {
 
     render() {
         const searchRes = this.state.searchResult
-        const { addedBooks, Books } = this.state
+        const { addedBooks, Books, flag } = this.state
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -62,7 +65,7 @@ class SearchBook extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid">
+                    {flag ? (<ol className="books-grid">
                         {searchRes.length > 0 ? (
                             searchRes.map((book, index) => {
                                 return (
@@ -92,7 +95,7 @@ class SearchBook extends Component {
                                 )
                             })
                         ) : "Search a book"}
-                    </ol>
+                    </ol>) : <h1 style={{ textAlign: "center", color: "red" }}>No Result Found</h1>}
                 </div>
             </div>
         )
