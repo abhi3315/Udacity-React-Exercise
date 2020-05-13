@@ -1,4 +1,4 @@
-function createStore() {
+function createStore(reducer) {
     //The store should have four parts
     //1. The state
     //2. Get the state
@@ -6,7 +6,7 @@ function createStore() {
     //4. Update the state
 
     let state
-    let listeners
+    let listeners = []
 
     const getState = () => state
 
@@ -18,8 +18,17 @@ function createStore() {
         }
     }
 
+    const dispatch = (action) => {
+        state = reducer(state, action)
+
+        listeners.forEach(listener => listener())
+    }
+
     return {
         getState,
-        subscribe
+        subscribe,
+        dispatch
     }
 }
+
+export default createStore
