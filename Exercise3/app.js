@@ -1,5 +1,3 @@
-import createStore from './store'
-
 //Action types
 const ADD_TODO = 'ADD_TODO'
 const REMOVE_TODO = 'REMOVE_TODO'
@@ -75,5 +73,3 @@ function app(state = {}, action) {
         goals: goals(state.goals, action)
     }
 }
-
-const store = createStore(app)

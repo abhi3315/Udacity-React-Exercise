@@ -30,5 +30,3 @@ function createStore(reducer) {
         dispatch
     }
 }
-
-export default createStore
