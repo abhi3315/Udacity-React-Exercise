@@ -56,7 +56,7 @@
             input.value = ''
 
             if (name !== '') {
-                store.dispatch(addTodoAction({
+                checkAndDispatch(addTodoAction({
                     name,
                     complete: false,
                     id: generateId()
@@ -70,7 +70,7 @@
             input.value = ''
 
             if (name !== '') {
-                store.dispatch(addGoalAction({
+                checkAndDispatch(addGoalAction({
                     name,
                     id: generateId()
                 }))
@@ -90,13 +90,13 @@
         function addTodoDom(todo) {
             const todoNode = document.createElement('li')
             const removeBtn = createRemoveBtn(() => {
-                store.dispatch(removeTodoAction(todo.id))
+                checkAndDispatch(removeTodoAction(todo.id))
             })
             todoNode.appendChild(document.createTextNode(todo.name))
             todoNode.appendChild(removeBtn)
             todoNode.style.textDecoration = todo.complete ? 'line-through' : 'none'
             todoNode.addEventListener('click', () => {
-                store.dispatch(toggleTodoAction(todo.id))
+                checkAndDispatch(toggleTodoAction(todo.id))
             })
 
             document.getElementById('todos').appendChild(todoNode)
@@ -105,11 +105,24 @@
         function addGoalDom(goal) {
             const goalNode = document.createElement('li')
             const removeBtn = createRemoveBtn(() => {
-                store.dispatch(removeGoalAction(goal.id))
+                checkAndDispatch(removeGoalAction(goal.id))
             })
             goalNode.appendChild(document.createTextNode(goal.name))
             goalNode.appendChild(removeBtn)
             document.getElementById('goals').appendChild(goalNode)
+        }
+
+        function checkAndDispatch(action) {
+            if (action.type === "ADD_TODO" &&
+                action.todo.name.toLowerCase().includes('bitcoin')) {
+                return alert("Nope! That's a bad idea")
+            }
+            else if (action.type === "GOAL_TODO" &&
+                action.goal.name.toLowerCase().includes('bitcoin')) {
+                return alert("Nope! That's a bad idea")
+            }
+
+            return store.dispatch(action)
         }
     </script>
 </body>
