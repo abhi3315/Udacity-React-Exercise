@@ -36,8 +36,8 @@
             document.getElementById('todos').innerHTML = ''
             document.getElementById('goals').innerHTML = ''
 
-            todos.forEach(todo => addTodoDom(todo.name))
-            goals.forEach(goal => addGoalDom(goal.name))
+            todos.forEach(addTodoDom)
+            goals.forEach(addGoalDom)
         })
 
         function addTodo() {
@@ -72,13 +72,18 @@
 
         function addTodoDom(todo) {
             const todoNode = document.createElement('li')
-            todoNode.appendChild(document.createTextNode(todo))
+            todoNode.appendChild(document.createTextNode(todo.name))
+            todoNode.style.textDecoration = todo.complete ? 'line-through' : 'none'
+            todoNode.addEventListener('click', () => {
+                store.dispatch(toggleTodoAction(todo.id))
+            })
+
             document.getElementById('todos').appendChild(todoNode)
         }
 
         function addGoalDom(goal) {
             const goalNode = document.createElement('li')
-            goalNode.appendChild(document.createTextNode(goal))
+            goalNode.appendChild(document.createTextNode(goal.name))
             document.getElementById('goals').appendChild(goalNode)
         }
     </script>
