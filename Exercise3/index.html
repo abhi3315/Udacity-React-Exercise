@@ -21,14 +21,24 @@
         <ul id="goals"></ul>
     </div>
 
-    <script src="./store.js"></script>
+    <!--
+    We don't need to create out owm store library, we can use redux library instead
+    <script src="./store.js"></script> 
+    -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
     <script src="./app.js"></script>
     <script>
         function generateId() {
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
         }
 
-        const store = createStore(app)
+        // const store = createStore(app)
+
+        //Use Redux provided createstore function
+        const store = Redux.createStore(Redux.combineReducers({
+            todos,
+            goals
+        }))
 
         store.subscribe(() => {
             const { goals, todos } = store.getState()
