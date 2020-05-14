@@ -50,6 +50,18 @@ function receiveDataAction(todos, goals) {
     }
 }
 
+function handleDeleteTodo(todo) {
+    return (dispatch) => {
+        dispatch(removeTodoAction(todo.id))
+
+        return API.deleteTodo(todo.id)
+            .catch(() => {
+                dispatch(addTodoAction(todo))
+                alert("Something went wrong! Try again later")
+            })
+    }
+}
+
 //App functions/reducers
 function todos(state = [], action) {
     switch (action.type) {

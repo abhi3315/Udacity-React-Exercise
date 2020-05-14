@@ -67,6 +67,14 @@
             return result
         }
 
+        const thunk = store => next => action => {
+            if (typeof action === 'function') {
+                return action(store.dispatch)
+            }
+
+            return next(action)
+        }
+
         // const store = createStore(app)
 
         //Use Redux provided createstore function
@@ -74,7 +82,7 @@
             todos,
             goals,
             loading
-        }), Redux.applyMiddleware(checker, logger))
+        }), Redux.applyMiddleware(thunk, checker, logger))
 
         // store.subscribe(() => {
         //     const { goals, todos } = store.getState()
@@ -164,13 +172,7 @@
             }
 
             removeTodo = (todo) => {
-                this.props.store.dispatch(removeTodoAction(todo.id))
-
-                return API.deleteTodo(todo.id)
-                    .catch(() => {
-                        this.props.store.dispatch(addTodoAction(todo))
-                        alert("Something went wrong! Try again later")
-                    })
+                this.props.store.dispatch(handleDeleteTodo(todo))
             }
 
             toggleTodo = (id) => {
