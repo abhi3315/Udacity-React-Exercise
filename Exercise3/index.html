@@ -17,7 +17,7 @@
     <div>
         <h1>Goals</h1>
         <input type="text" id="goal" placeholder="Add Goal">
-        <button id="goalBtn">Add Todo</button>
+        <button id="goalBtn">Add Goal</button>
         <ul id="goals"></ul>
     </div>
 
@@ -46,13 +46,22 @@
             return next(action)
         }
 
+        const logger = store => next => action => {
+            console.group(action.type)
+            console.log("The action: ", action)
+            const result = next(action)
+            console.log("The new state: ", store.getState())
+            console.groupEnd()
+            return result
+        }
+
         // const store = createStore(app)
 
         //Use Redux provided createstore function
         const store = Redux.createStore(Redux.combineReducers({
             todos,
             goals
-        }), Redux.applyMiddleware(checker))
+        }), Redux.applyMiddleware(checker, logger))
 
         store.subscribe(() => {
             const { goals, todos } = store.getState()
