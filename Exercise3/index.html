@@ -38,6 +38,7 @@
     <script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
     <script type="text/javascript">
         function generateId() {
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
@@ -71,7 +72,8 @@
         //Use Redux provided createstore function
         const store = Redux.createStore(Redux.combineReducers({
             todos,
-            goals
+            goals,
+            loading
         }), Redux.applyMiddleware(checker, logger))
 
         // store.subscribe(() => {
@@ -248,11 +250,22 @@
             componentDidMount() {
                 const { store } = this.props
                 store.subscribe(() => this.forceUpdate())
+                Promise.all([
+                    API.fetchTodos(),
+                    API.fetchGoals()]).then(([todos, goals]) => {
+                        store.dispatch(receiveDataAction(todos, goals))
+                    })
             }
 
             render() {
                 const { store } = this.props
-                const { todos, goals } = store.getState()
+                const { todos, goals, loading } = store.getState()
+
+                if (loading === true) {
+                    return (
+                        <h3>Loading...</h3>
+                    )
+                }
 
                 return (
                     <div>
