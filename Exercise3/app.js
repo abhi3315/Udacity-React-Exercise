@@ -50,6 +50,39 @@ function receiveDataAction(todos, goals) {
     }
 }
 
+function handleInitialData() {
+    return (dispatch) => {
+        Promise.all([
+            API.fetchTodos(),
+            API.fetchGoals()]).then(([todos, goals]) => {
+                dispatch(receiveDataAction(todos, goals))
+            })
+    }
+}
+
+function handleAddTodo(name, cb) {
+    return (dispatch) => {
+        return API.saveTodo(name)
+            .then(todo => {
+                dispatch(addTodoAction(todo))
+                cb()
+            })
+            .catch(() => alert("Something went wrong! Try again later"))
+    }
+}
+
+function handleToggleTodo(id) {
+    return (dispatch) => {
+        dispatch(toggleTodoAction(id))
+
+        return API.saveTodoToggle(id)
+            .catch(() => {
+                dispatch(toggleTodoAction(id))
+                alert("Something went wrong! Try again later")
+            })
+    }
+}
+
 function handleDeleteTodo(todo) {
     return (dispatch) => {
         dispatch(removeTodoAction(todo.id))
@@ -57,6 +90,29 @@ function handleDeleteTodo(todo) {
         return API.deleteTodo(todo.id)
             .catch(() => {
                 dispatch(addTodoAction(todo))
+                alert("Something went wrong! Try again later")
+            })
+    }
+}
+
+function handleAddGoal(name, cb) {
+    return (dispatch) => {
+        return API.saveGoal(name)
+            .then((goal) => {
+                dispatch(addGoalAction(goal))
+                cb()
+            })
+            .catch(() => alert("Something went wrong! Try again later"))
+    }
+}
+
+function handleDeleteGoal(goal) {
+    return (dispatch) => {
+        dispatch(removeGoalAction(goal.id))
+
+        return API.deleteGoal(goal.id)
+            .catch(() => {
+                dispatch(addGoalAction(goal))
                 alert("Something went wrong! Try again later")
             })
     }
