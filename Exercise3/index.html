@@ -208,17 +208,17 @@
             }
         }
 
-        const ConnectedTodos = connect((state) => {
+        const ConnectedTodos = connect((state) => ({
             todos: state.todos
-        })(Todos)
+        }))(Todos)
 
-        const ConnectedGoals = connect((state) => {
+        const ConnectedGoals = connect((state) => ({
             goals: state.goals
-        })(Goals)
+        }))(Goals)
 
-        const ConnectedApp = connect((state) => {
+        const ConnectedApp = connect((state) => ({
             loading: state.loading
-        })(App)
+        }))(App)
 
         class Provider extends React.Component {
             render() {
